@@ -1,0 +1,54 @@
+<html>
+<head>
+	<title>Food Journal</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+<body>
+	<div class="container">
+		<h2>{{ today|date:"D d M Y" }}</h2>
+
+		<ul>
+			{% for item in items %}
+			<li 
+			{% if item.quality == 0 %}
+			style="color:green;"
+			{% else %}
+				{% if item.quality == 1 %}
+					style="color:yellow;"
+				{% else %}
+					style="color:red;"
+				{% endif %}
+			{% endif %}
+			>{{ item.item }}: {{ item.amount }}</li>
+			{% endfor %}
+		</ul>
+
+		<p>
+		<form action="" method="post">
+			<textarea name="item" placeholder="What"></textarea><br/>
+			<select name="quality">
+				<option value=0>Good</option>
+				<option value=1>OK</option>
+				<option value=2>Bad</option>
+			</select><br/>
+			<select name="amount">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="little">A Little</option>
+				<option value="moderate">A Bit</option>
+				<option value="lot">A Lot</option>
+			</select><br/>
+			<input type="text" name="custom" placeholder="Custom Amount" /><br/>
+			<input type="submit" />
+		</form>
+		</p>
+	</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
