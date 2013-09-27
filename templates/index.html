@@ -6,22 +6,44 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 </head>
 <body>
+	<div class="navbar">
+		<div class="container">
+			<a href="/?c={{ c_prev }}" class="pull-left">Prev Day</a>
+			{% if c_next >= 0 %}
+			<a href="/?c={{ c_next }}" class="pull-right">Next Day</a>
+			{% endif %}
+		</div>
+	</div>
 	<div class="container">
 		<h2>{{ today|date:"D d M Y" }}</h2>
 
-		<ul>
+		<ul style="list-style-type: none;">
 			{% for item in items %}
 			<li 
 			{% if item.quality == 0 %}
 			style="color:green;"
 			{% else %}
 				{% if item.quality == 1 %}
-					style="color:yellow;"
+					style="color:#FBB917;"
 				{% else %}
 					style="color:red;"
 				{% endif %}
 			{% endif %}
-			>{{ item.item }}: {{ item.amount }}</li>
+			>{{ item.item }}: 
+			{% if item.amount == "little" or item.amount == "moderate" or item.amount == "lot" %}
+				{% if item.amount == "little" %}
+				A little
+				{% endif %}
+				{% if item.amount == "moderate" %}
+				A bit
+				{% endif %}
+				{% if item.amount == "lot" %}
+				A lot
+				{% endif %}
+			{% else %}
+				{{ item.amount }}
+			{% endif %}
+			</li>
 			{% endfor %}
 		</ul>
 

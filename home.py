@@ -47,11 +47,18 @@ class MainPage(webapp2.RequestHandler):
       
     date = get_date(self.request)
 
+    if "c" in self.request.params:
+      c = int(self.request.params['c'])
+    else:
+      c = 0
+    
+    date = date - datetime.timedelta(c)
+
     day = get_day(user, date)
 
     items = ItemRecord.all().filter("day =", day.key()).fetch(50)
 
-    self.response.out.write(template.render("templates/index.html", {'items': items, 'today': date}))
+    self.response.out.write(template.render("templates/index.html", {'items': items, 'today': date, 'c_prev': c + 1, 'c_next': c - 1}))
     
   def post(self):
     user = get_user()
@@ -62,6 +69,8 @@ class MainPage(webapp2.RequestHandler):
     item.day = day
     item.item = self.request.params['item']
     item.amount = self.request.params['amount']
+    if "custom" in self.request.params and self.request.params['custom'] != "":
+      item.amount = self.request.params['custom']
     item.quality = int(self.request.params['quality'])
     item.put()
 
